@@ -21,7 +21,7 @@ resource "aws_lb" "main" {
 # Target Groups for Blue and Green Deployments
 resource "aws_lb_target_group" "blue_tg" {
   name        = "blue-tg"
-  port        = 5000
+  port        = 3000
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "ip"
@@ -43,7 +43,7 @@ resource "aws_lb_target_group" "blue_tg" {
 
 resource "aws_lb_target_group" "green_tg" {
   name        = "green-tg"
-  port        = 5000
+  port        = 3000
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "ip"
@@ -150,8 +150,8 @@ resource "aws_ecs_task_definition" "app" {
       essential = true
       portMappings = [
         {
-          containerPort = 5000
-          hostPort      = 5000
+          containerPort = 3000
+          hostPort      = 3000
         }
       ]
       logConfiguration = {
@@ -194,7 +194,7 @@ resource "aws_ecs_service" "app" {
   load_balancer {
     target_group_arn = aws_lb_target_group.blue_tg.arn
     container_name   = "app"
-    container_port   = 5000
+    container_port   = 3000
   }
 
   lifecycle {
@@ -225,7 +225,10 @@ resource "aws_codedeploy_deployment_group" "ecs_dg" {
  
   deployment_config_name = "CodeDeployDefault.ECSAllAtOnce"  
 
-    depends_on = [aws_ecs_service.app]
+    depends_on = [
+    aws_ecs_cluster.main,
+    aws_ecs_service.app
+  ]
 
  auto_rollback_configuration {
     enabled = true
@@ -239,7 +242,7 @@ resource "aws_codedeploy_deployment_group" "ecs_dg" {
 
     terminate_blue_instances_on_deployment_success {
       action                           = "TERMINATE"
-      termination_wait_time_in_minutes = 5
+      termination_wait_time_in_minutes = 1
     }
   }
 

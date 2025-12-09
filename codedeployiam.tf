@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "codedeploy_role_policy" {
       "ecs:DeleteTaskSet",
       "ecs:CreateTaskSet",
       "codedeploy:RegisterApplicationRevision",
-      "codedeploy:Get*",
+      "codedeploy:*",
       "codedeploy:CreateDeployment",
       "cloudwatch:DescribeAlarms"
     ]

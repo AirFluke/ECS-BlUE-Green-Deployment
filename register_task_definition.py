@@ -3,7 +3,7 @@ import json
 
 # Define your ECS cluster name and task definition family
 TASK_DEFINITION_FAMILY = "app-task"
-NEW_IMAGE = "ooghenekaro/barbers-app-postgres"  # Replace with your Docker Hub image
+NEW_IMAGE = "airfluke/amazon:15"  # Replace with your Docker Hub image
 CONTAINER_NAME = "app"  # Replace with your container name
 CLUSTER_NAME = "main-cluster"
 DEPLOYMENT_GROUP_NAME = "ecs-dg"
@@ -11,8 +11,8 @@ APPLICATION_NAME = "ecs-app"
 CONTAINER_PORT = 5000  # Replace with your container port if different
 
 # Create a Boto3 ECS client
-ecs_client = boto3.client('ecs')
-codedeploy_client = boto3.client('codedeploy')
+ecs_client = boto3.client('ecs', region_name="eu-west-2")
+codedeploy_client = boto3.client('codedeploy', region_name="eu-west-2")
 
 # Retrieve the latest task definition for the family
 response = ecs_client.list_task_definitions(familyPrefix=TASK_DEFINITION_FAMILY, sort='DESC', maxResults=1)

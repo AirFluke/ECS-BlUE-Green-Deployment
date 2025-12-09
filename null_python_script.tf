@@ -1,12 +1,16 @@
 resource "null_resource" "register_task_definition" {
   provisioner "local-exec" {
-    command = "python3 register_task_definition.py"
+    command = "sleep 10 && python3 register_task_definition.py"
   }
 
   # Optional: Trigger script execution on changes to relevant resources
   triggers = {
     always_run = "${timestamp()}"
   }
+  depends_on = [
+  aws_codedeploy_deployment_group.ecs_dg,
+  aws_codedeploy_app.ecs_app
+]
 }
 
 /*

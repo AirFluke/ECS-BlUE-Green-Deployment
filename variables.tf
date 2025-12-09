@@ -19,7 +19,7 @@ variable "container_name" {
 variable "image" {
   description = "The image URI"
   type        = string
-  default     = "ooghenekaro/myflaskapp:10"
+  default     = "airfluke/amazon:15"
 }
 
 variable "memory" {
@@ -37,7 +37,7 @@ variable "cpu" {
 variable "role_arn" {
   description = "The ARN of the IAM role"
   type        = string
-  default     = "arn:aws:iam::335871625378:role/ecsTaskExecutionRole"
+  default     = "arn:aws:iam::751647213649:role/ecsTaskExecutionRole"
 }
 
 variable "deployment_group" {
